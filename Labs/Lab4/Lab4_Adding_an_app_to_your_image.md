@@ -179,7 +179,7 @@ Build the FFU image again, as specified in Lab 1: Create a basic image. You can 
 New-IoTFFUImage ProductC Test -Verbose
 ```
 
-Deploy the image to the SD Card and reboot the device. Remember to deploy the `firmware_fit.merged` and `uefi.fit` files as well. You'll now notice that the sensor requires more twisting to register a red arrow=.
+Deploy the image to the SD Card and reboot the device. Remember to deploy the `firmware_fit.merged` and `uefi.fit` files as well. You'll now notice that the sensor requires more twisting to register a red arrow.
 
 ## Next Lab
 
