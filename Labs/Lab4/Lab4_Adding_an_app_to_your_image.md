@@ -146,6 +146,41 @@ New-IoTFFUImage ProductC Test -Verbose
 
 Now that the image has been rebuilt without errors we're ready to bring everything together and deploy the image to the device. Remember to deploy the `firmware_fit.merged` and `uefi.fit` files as well.
 
+## Testing the app
+
+The accelerometer is oriented so that when the header is down the app should display the red down arrow. As you twist the sensor left and right you will see the other arrows start to show. One thing you might notice is that the app is very sensitive to gravity so that it only takes a little twist to turn arrows red. Let's fix this:
+
+1. Go back to the AccelerometerDemo.sln in Visual Studio.
+
+2. Open the `MainPage.xaml.cs` file in the solution explorer (if it isn't already expanded just click on the small triangle to the left of `MainPage.xaml`) double clicking  the displayed file.
+
+3. Scroll down to the DisplayCurrentReadingAsync method and change the 0.1 & -0.1 values in that method to 0.5 & -0.5 respectively.
+
+4. Save your project in **Visual Studio** and then build your Appx package. 
+
+5. Once the Appx file is built, run the following command in **IoT Core Powershell Environment** ():
+
+   ```powersheall
+   Add-IoTAppxPackage "C:\HOLApp\AcceleromterDemo_1.0.1.0_ARM_Test\AcceleromterDemo_1.0.1.0_ARM.appx" fga Appx.AccelDemo
+   ```
+
+   >NOTE: There will be an error displayed - `Error: %OEM_NAME%.Appx.AccelDemo.cab already defined in FM file` - You can safely ignore this.
+
+## Rebuild the image
+From the IoT Core PowerShell Environment, get your environment ready to create products by building all of the packages in the working folders (using `New-IoTCabPackage`):
+
+```powershell
+New-IoTCabPackage All
+```
+
+Build the FFU image again, as specified in Lab 1: Create a basic image. You can use this command:
+
+```powershell
+New-IoTFFUImage ProductC Test -Verbose
+```
+
+Ddeploy the image to the SD Card and reboot the device. Remember to deploy the `firmware_fit.merged` and `uefi.fit` files as well. You'll now notice that the sensor requires more twisting to register a red arrow=.
+
 ## Next Lab
 
 [Lab 5 - Bringing it all together](/Labs/Lab5/Lab5_Bringing_it_all_together.md)

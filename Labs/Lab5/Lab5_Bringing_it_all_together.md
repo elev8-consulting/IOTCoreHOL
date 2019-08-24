@@ -53,9 +53,7 @@ We're happy with our debug image now so the next step is to create a retailimage
 
 If you have one or more custom applications that you want to include in your Windows IoT Core retail image, you need to verify that these applications are signed properly when including them in your retail image. Follow these steps for each application you want to include in your image. Please note that you can skip Steps 8 and 9 if you only have one application to include.
 
-1. Install your retail code-signing certificate on your PC.
-
-2. Open your custom application in **Visual Studio** and open the `Package.appxmanifest` file.
+1. Open the AccelerometerDemo solution in **Visual Studio** and open the `Package.appxmanifest` file.
 
 3. Click on the **Packaging** tab and click on the **Choose Certificate...** button.
 
@@ -72,7 +70,7 @@ If you have one or more custom applications that you want to include in your Win
 7. Once the Appx file is built, run the following command in **IoT Core Powershell Environment** ():
 
    ```powersheall
-   Add-IoTAppxPackage "C:\HOLApp\AcceleromterDemo_1.0.3.0_ARM_Test\AcceleromterDemo_1.0.3.0_ARM.appx" fga Appx.AccelDemo
+   Add-IoTAppxPackage "C:\HOLApp\AcceleromterDemo_1.0.2.0_ARM_Test\AcceleromterDemo_1.0.2.0_ARM.appx" fga Appx.AccelDemo
    ```
    >NOTE: There will be an error displayed - `Error: %OEM_NAME%.Appx.AccelDemo.cab already defined in FM file` - You can safely ignore this.
 
