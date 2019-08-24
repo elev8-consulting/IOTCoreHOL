@@ -146,7 +146,7 @@ New-IoTFFUImage ProductC Test -Verbose
 
 Now that the image has been rebuilt without errors we're ready to bring everything together and deploy the image to the device. Remember to deploy the `firmware_fit.merged` and `uefi.fit` files as well.
 
-## Testing the app
+## Updating the app
 
 The accelerometer is oriented so that when the header is down the app should display the red down arrow. As you twist the sensor left and right you will see the other arrows start to show. One thing you might notice is that the app is very sensitive to gravity so that it only takes a little twist to turn arrows red. Let's fix this:
 
