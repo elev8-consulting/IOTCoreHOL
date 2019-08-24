@@ -67,6 +67,38 @@ The overall process is to bring up each of the firmware components in sequence, 
 
        cp include/configs/mx6cuboxi.h include/configs/hollabboard.h
 
+## Modifying the board initialization
+
+If you were building your own board you would be performing your board initialization in the `hollabboard.c` file. As we're using the HummingBoard Edge we just copied the initialization source directly. However, we are adding a new sensor and to make this work with the current implementation we're going to need to do some additional work.
+
+1. Open `C:\HOLFirmware\u-boot\board\hol\hollabboard\hollabboard.c` in Visual Studio.
+
+2. Below the DECLARE_GLOBAL_DATA_PTR line, place the following code:
+   >Note: These 2 steps define the pad as a GPIO pad so that when the driver asks for a GPIO Interrupt on this pad Windows correctly creates it. 
+    
+``` c++
+#define GPIO_PAD_CTRL                                 \
+     (PAD_CTL_HYS | PAD_CTL_SPEED_MED | PAD_CTL_DSE_40ohm)
+
+// Sets the EIM_DA1 pad on the SoC to behave as GPIO bank 3 pin 1 with properties we specified in GPIO_PAD_CTRL above
+static iomux_v3_cfg_t const accelerometer[] = {
+     IOMUX_PADS(PAD_EIM_DA1__GPIO3_IO01 | MUX_PAD_CTRL(GPIO_PAD_CTRL)),
+};
+
+static void setup_iomux_accel(void)
+{
+     SETUP_IOMUX_PADS(accelerometer);
+}
+```
+
+3. Search for the function `board_init` and insert this line:
+
+```c++
+setup_iomux_accel();
+```
+
+4. Close the files and save them.
+
 ## Modify OP-TEE
 OP-TEE is mostly board-independent. Right now, the only configuration that needs to be changed is the console UART. In the future, there may be other board-specific configurations that need to change as trusted I/O is implemented.
 
