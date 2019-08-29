@@ -21,7 +21,7 @@ To make running these commands easier, we'll install and use the IoT Core shell,
    
    Troubleshooting: Error: "The system cannot find the path specified". If you get this, right-click the icon and modify the path in "Target" to the location you've chosen to install the tools.
 
-2. In the IoTCorePShell, create a new workspace say C:\MyWorkspace with an OEM name Contoso for the architecture arm using New-IoTWorkspace
+2. In the IoTCorePShell, create a new workspace say C:\MyWorkspace with an OEM name HOLLab for the architecture arm using New-IoTWorkspace
 
    ```powershell
    New-IoTWorkspace C:\MyWorkspace HOLLab arm

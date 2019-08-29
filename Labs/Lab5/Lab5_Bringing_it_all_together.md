@@ -70,7 +70,7 @@ If you have one or more custom applications that you want to include in your Win
 7. Once the Appx file is built, run the following command in **IoT Core Powershell Environment** ():
 
    ```powersheall
-   Add-IoTAppxPackage "C:\HOLApp\AcceleromterDemo_1.0.2.0_ARM_Test\AcceleromterDemo_1.0.2.0_ARM.appx" fga Appx.AccelDemo
+   Add-IoTAppxPackage "C:\HOLApp\AcceleromterDemo_1.0.2.0_ARM_Debug_Test\AcceleromterDemo_1.0.2.0_ARM_Debug.appx" fga Appx.AccelDemo
    ```
    >NOTE: There will be an error displayed - `Error: %OEM_NAME%.Appx.AccelDemo.cab already defined in FM file` - You can safely ignore this.
 
@@ -140,7 +140,7 @@ The MX6 board uses the **Windows IoT Core Dashboard** to deploy the FFU (you can
 
 4. Select **Custom** under OS Build.
 
-5. Click **Browse** and navigate and select the FFU file you created earlier. In this case, your FFU file is located at `C:\MyWorkspace\Build\arm\ProductC\Test\Flash.ffu`. Then click **Next**.
+5. Click **Browse** and navigate and select the FFU file you created earlier. In this case, your FFU file is located at `C:\MyWorkspace\Build\arm\ProductD\Retail\Flash.ffu`. Then click **Next**.
 
 6. Verify that your microSD card is listed under the Drive selection.
 

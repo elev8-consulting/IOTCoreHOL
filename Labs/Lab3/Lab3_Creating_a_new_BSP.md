@@ -34,7 +34,7 @@ There are several ways that you can add driver support to your device (in the Io
 
 ## Add the driver to the BuildBSP batch file
 
-1. Add the following to `C:\HOLFirmware\imx-iotcore\build\tools\BuildBSP.bat`:
+1. Add the following to `C:\HOLFirmware\imx-iotcore\build\tools\BuildBSP.bat` after the line `echo Copying Driver Packages to %PKG_ROOT%`:
 
    ```
    mkdir %PKG_ROOT%\AXDL345 >NUL 2>NUL
@@ -59,12 +59,10 @@ There are several ways that you can add driver support to your device (in the Io
    </PackageFile>
    ```
 
-3. Finally add the driver to the OEM manifests for your BSP (we'll be building a retail version later so we'll setup the retail driver now), `C:\HOLFirmware\imx-iotcore\build\board\HOLLab_iMX6Q_2GB\HOLLab_iMX6Q_2GB_TestOEMInput.xml` and `C:\HOLFirmware\imx-iotcore\build\board\HOLLab_iMX6Q_2GB\HOLLab_iMX6Q_2GB_ProductionOEMInput.xml`
+3. Finally add the driver to the OEM manifests for your BSP (we'll be building a retail version later so we'll setup the retail driver now), `C:\HOLFirmware\imx-iotcore\build\board\HOLLab_iMX6Q_2GB\HOLLab_iMX6Q_2GB_TestOEMInput.xml` and `C:\HOLFirmware\imx-iotcore\build\board\HOLLab_iMX6Q_2GB\HOLLab_iMX6Q_2GB_ProductionOEMInput.xml` between the `<OEM></OEM>` tages:
 
    ```xml
-   <OEM>
         <Feature>ADXL345A_DRIVER</Feature>
-   </OEM>
    ```
 
    We're now done with adding the driver.

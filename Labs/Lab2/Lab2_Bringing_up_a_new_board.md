@@ -102,7 +102,7 @@ setup_iomux_accel();
 ## Modify OP-TEE
 OP-TEE is mostly board-independent. Right now, the only configuration that needs to be changed is the console UART. In the future, there may be other board-specific configurations that need to change as trusted I/O is implemented.
 
-1. Change to the `/mnt/c/HOLFirmware/optee_os/` folder
+1. In the Ubuntu shell, change to the `/mnt/c/HOLFirmware/optee_os/` folder
 
 2. Edit `core/arch/arm/plat-imx/conf.mk` to include our new board. Add the following to `mx6q-flavorlist`
 
@@ -193,7 +193,7 @@ Again for the purposes of this lab we will not be taking the typical approach an
 
        cd /mnt/c/HOLFirmware/imx-edk2-platforms/Platform/hol/HOLLab_iMX6Q_2GB/AcpiTables
 
-1. Edit `Dsdt.asl` and add the following ASL to define the new sensor:
+1. Edit `DSDT.asl` and add the following ASL to define the new sensor:
 
        include ("Dsdt-Accel.asl")
 

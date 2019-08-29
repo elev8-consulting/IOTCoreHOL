@@ -161,7 +161,7 @@ The accelerometer is oriented so that when the header is down the app should dis
 5. Once the Appx file is built, run the following command in **IoT Core Powershell Environment** ():
 
    ```powersheall
-   Add-IoTAppxPackage "C:\HOLApp\AcceleromterDemo_1.0.1.0_ARM_Test\AcceleromterDemo_1.0.1.0_ARM.appx" fga Appx.AccelDemo
+   Add-IoTAppxPackage "C:\HOLApp\AcceleromterDemo_1.0.1.0_ARM_Debug_Test\AcceleromterDemo_1.0.1.0_ARM_Debug.appx" fga Appx.AccelDemo
    ```
 
    >NOTE: There will be an error displayed - `Error: %OEM_NAME%.Appx.AccelDemo.cab already defined in FM file` - You can safely ignore this.
