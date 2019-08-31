@@ -141,16 +141,23 @@ If you were building your own board you would be performing your board initializ
    setup_iomux_accel();
    ```
 
+   ![Board_Init changes complete](BoardInitComplete.png)
 4. Close the files and save them.
 
 ## Modify OP-TEE
 OP-TEE is mostly board-independent. Right now, the only configuration that needs to be changed is the console UART. In the future, there may be other board-specific configurations that need to change as trusted I/O is implemented.
 
-1. In the Ubuntu shell, change to the `/mnt/c/HOLFirmware/optee_os/` folder
+1. In the Ubuntu shell, change to the `/mnt/c/HOLFirmware/optee_os/` folder:
 
-2. Edit `core/arch/arm/plat-imx/conf.mk` to include our new board. Add the following to `mx6q-flavorlist`
+   ```
+   cd /mnt/c/HOLFirmware/optee_os/
+   ```
+
+2. Using Nano. edit `core/arch/arm/plat-imx/conf.mk` to include our new board. Add the following to `mx6q-flavorlist`
 
        mx6qhollab \
+
+   ![ConfMK Changes 1](ConfMK-1.png)
 
 3. Add the following to the `conf.mk` file:
 
@@ -159,6 +166,7 @@ OP-TEE is mostly board-independent. Right now, the only configuration that needs
        CFG_UART_BASE ?= UART1_BASE
        endif
 
+   ![ConfMK changes 2](ConfMK-2.png)
 4. Save the file.
 
 ## Setting up your build enviroment to build firmware_fit.merged
@@ -166,6 +174,11 @@ OP-TEE is mostly board-independent. Right now, the only configuration that needs
 In order to build and load both OPTEE and U-Boot you will need to create a Flattened Image Tree (FIT) binary to flash onto your device. The build enviroment for FIT images is integrated into the build infrastructure. This will sign SPL for [high assurance boot](build-firmware.md#signing-and-high-assurance-boot-hab), and combine SPL, U-Boot, and OP-TEE into a single `firmware_fit.merged` file that can be tested manually, or built into an FFU image as part of a BSP.
 
 1. Change to the folder `/mnt/c/HOLFirmware/imx-iotcore/`
+
+   ```
+   cd /mnt/c/HOLFirmware/imx-iotcore/
+   ```
+
 2. Copy `imx-iotcore/build/firmware/hummingboard` to `imx-iotcore/build/firmware/HOLLab_iMX6Q_2GB`
 
        pushd build/firmware/HummingBoardEdge_iMX6Q_2GB
@@ -174,19 +187,22 @@ In order to build and load both OPTEE and U-Boot you will need to create a Flatt
        mkdir -p build/firmware/HOLLab_iMX6Q_2GB
        cp -r build/firmware/HummingBoardEdge_iMX6Q_2GB/* build/firmware/HOLLab_iMX6Q_2GB
 
-3. Edit `build/firmware/HOLLab_iMX6Q_2GB/Makefile` and change the `UBOOT_CONFIG` and the OP-TEE `PLATFORM` for your board.
+3. Using Nano, edit `build/firmware/HOLLab_iMX6Q_2GB/Makefile` and change the `UBOOT_CONFIG` and the OP-TEE `PLATFORM` for your board.
 
        UBOOT_CONFIG=hollabboard_nt_defconfig
 
        $(MAKE) -C $(OPTEE_ROOT) O=$(OPTEE_OUT) PLATFORM=imx-mx6qhollab \
 
        BUG:
-       Add the flag "EDK2_FLAGS=-D CONFIG_NOT_SECURE_UEFI=1" to the Makefile to disable fTPM. This is due to version incompatibilities in the repos as at 8/11/2019.
+       We've added the flag "EDK2_FLAGS=-D CONFIG_NOT_SECURE_UEFI=1" to the Makefile to disable fTPM. This is due to version incompatibilities in the repos as at 8/11/2019.
 
 4. Run `make` in `imx-iotcore/build/firmware/HOLLab_iMX6Q_2GB` and verify that `firmware_fit.merged` is generated.
 
+       
        cd build/firmware/HOLLab_iMX6Q_2GB/
        make
+       
+   >Note: You will be prompted for Administrator elevation during this build. If you don't click `Yes` before the timeout expires your build will fail.
 
    >Note: If you have already run make in the u-boot directory you will need to clean it using `make mrproper`
 
@@ -197,6 +213,11 @@ In order to build and load both OPTEE and U-Boot you will need to create a Flatt
 UEFI is required to boot Windows. UEFI provides a runtime environment for the Windows bootloader, access to storage, hardware initialization, ACPI tables, and a description of the memory map. First we construct a minimal UEFI with only eMMC and debugger support. Then, we add devices one-by-one to the system.
 
 1. Change to the `/mnt/c/HOLFirmware/imx-edk2-platforms/` directory
+
+   ```
+   cd /mnt/c/HOLFirmware/imx-edk2-platforms/
+   ```
+
 
 2. Copy `Platform\SolidRun\HUMMINGBOARD_EDGE_IMX6Q_2GB` to `Platform\hol\HOLLab_iMX6Q_2GB`.
 
@@ -210,11 +231,12 @@ UEFI is required to boot Windows. UEFI provides a runtime environment for the Wi
 
 ### DSC and FDF file
 
-Edit the `Platform/hol/HOLLab_iMX6Q_2GB/HOLLab_iMX6Q_2GB.dsc` file and change the following settings as appropriate for your board:
+using Nano edit the `Platform/hol/HOLLab_iMX6Q_2GB/HOLLab_iMX6Q_2GB.dsc` file and change the following settings as appropriate for your board:
 
  * `BOARD_NAME` - set to `HOLLab_iMX6Q_2GB`
  * `BOARD_DIR` - set to `Platform/hol/$(BOARD_NAME)`
 
+   ![DSC Changes](DSCChanges.png)
 ### Board-specific Initialization
 
 The file `Platform/hol/HOLLab_iMX6Q_2GB/Library/iMX6BoardLib/iMX6BoardInit.c` contains board-specific initialization code, which includes:
@@ -237,9 +259,11 @@ Again for the purposes of this lab we will not be taking the typical approach an
 
        cd /mnt/c/HOLFirmware/imx-edk2-platforms/Platform/hol/HOLLab_iMX6Q_2GB/AcpiTables
 
-1. Edit `DSDT.asl` and add the following ASL to define the new sensor:
+1. using Nano, edit `DSDT.asl` and add the following ASL to define the new sensor:
 
        include ("Dsdt-Accel.asl")
+
+   ![DSDT ASL change](ASL.png)
 
 2. Copy the Dsdt-Accel.asl file into the AcpiTables directory:
 
@@ -247,10 +271,12 @@ Again for the purposes of this lab we will not be taking the typical approach an
 
 ## Building UEFI
 
-1. Change `/mnt/c/HOLFirmware/imx-iotcore/build/firmware/HOLLab_iMX6Q_2GB/Makefile` to use your .dsc & .fdf files. Modify the entries for `EDK2_DSC` and `EDK2_PLATFORM` to:
+1. Using Nano, edit `/mnt/c/HOLFirmware/imx-iotcore/build/firmware/HOLLab_iMX6Q_2GB/Makefile` to use your .dsc & .fdf files. Modify the entries for `EDK2_DSC` and `EDK2_PLATFORM` to:
 
        EDK2_DSC=HOLLab_iMX6Q_2GB
        EDK2_PLATFORM=hol/HOLLab_iMX6Q_2GB
+
+   ![EDK2 Changes](EDK2Changes.png)
 
 2. Save the file.
 
@@ -280,6 +306,8 @@ To test UEFI, you will need an SD card with a FAT partition. The easiest way to 
 
        c:\HOLFirmware\dd.exe if=c:\HOLFirmware\firmware_fit.merged of=\\.\PhysicalDrive2 bs=512 seek=2
        
+   >Note: The PhysicalDriveX number may vary on your machine. You can use `diskpart` to find the disk number.
+   
    >Note: DD for Windows will show an error 87. This can be ignored.
 
 6. Replace `uefi.fit` on the EFIESP partition/drive of the SD card with your `uefi.fit` from the `C:\HOLFirmware` directory.
