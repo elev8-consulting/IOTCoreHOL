@@ -316,17 +316,25 @@ To test UEFI, you will need an SD card with a FAT partition. The easiest way to 
 
    >Note: The current version of the u-boot source causes the screen buffer to become corrupted. This will display as a torn color image. Please continue to wait and the screen will go black and continue with the booting process.
 
-# If there is a problem booting Windows
+# Testing the firmware
 
-As long as the serial console and SDHC device node are configured correctly in UEFI, the Windows kernel should get loaded. Once you see the kernel looking for a debugger connection, you can close the serial terminal and start WinDBG.
+1. Once your device has booted and completed the Out Of Box Experience (OOBE), launch the `Windows IoT Core Dashboard`. The device should appear in the list of devices.
 
-       windbg.exe -k com:port=COM3,baud=115200
+   >Note: If prompted by Windows Firewall grant access to private networks.
 
-If you hit an `INACCESSIBLE_BOOT_DEVICE` bugcheck, it means there's a problem with the storage driver. Run `!devnode 0 1` to inspect the device tree, and see what the status of the SD driver is. You can dump the log from the SD driver by running:
+2. Right click on the device and select `Open device portal`. Use `administrator` as the user and `p@ssw0rd` as the password.
 
-       !rcdrkd.rcdrlogdump imxusdhc.sys
+   ![Opening Device Portal](DevicePortal-1.png)
 
-After you have a minimal booting Windows image, the next step is to bring up and test each device.
+3. Select `Devices` and expand the nodes `ACPI ARM-based PC`, then `Microsoft ACPI-Compliant System`.
+
+   ![Expanding ACPI devices](DevicePortal-2.png)
+
+4. Scroll down to find the `ACPI\ADXL345A\1` entry and click on the gear icon.
+
+   ![Inspecting the ADXL345 device](DevicePortal-3.png)
+
+5. Your node should appear as in the image above. ProblemCode 28 is expected as this is Windows saying that it can't find a driver.
 
 ## Next Lab
 
