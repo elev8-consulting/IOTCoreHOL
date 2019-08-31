@@ -4,16 +4,25 @@ The overall process is to bring up each of the firmware components in sequence, 
 
 ## Initialize the new board configuration
 
-1. Open the IoTCore PowerShell and run `c:\HOLFirmware\imx-iotcore\build\tools\NewiMX6Board.ps1 HOLLab_iMX6Q_2GB`
+1. Open the IoTCore PowerShell and run:
+
+   ```powershell
+   c:\HOLFirmware\imx-iotcore\build\tools\NewiMX6Board.ps1 HOLLab_iMX6Q_2GB
+   ```
+
    >Note: Any new board name should follow the schema of BoardName_SoCType_MemoryCapacity. See imx-iotcore\build\board for examples.  
 
    This step will create a new board configuration in `c:\HOLFirmware\imx-iotcore\build\board\` and a new firmware folder in `c:\HOLFirmware\imx-iotcore\build\firmware`.
 
-2. Open iMXPlatform solution in Visual Studio (Run VS as Administrator)
-3. Open up the Solution Explorer view (Ctrl + Alt + L).
+2. Open iMXPlatform solution in Visual Studio (Visual Studio is running as an administrator so it will ask for approval, click `Yes` to continue).
+3. Open up the Solution Explorer view (Ctrl + Alt + L) if it is not already open.
+
+   ![Add an existing project](AddExistingProject.png)
+
 4. Right click the Board Packages folder and select Add Existing Project.
 5. Select `C:\HOLFirmware\imx-iotcore\build\board\HOLLab_iMX6Q_2GB\Package\HOLLab_iMX6Q_2GB_Package.vcxproj`
 6. Right click on HOLLab_iMX6Q_2GB => Build Dependencies => Project Dependencies then select HalExtiMX6Timers, imxusdhc, and mx6pep.
+   ![Set project dependencies](ProjectDependencies.png)
 7. Right click the GenerateTestFFU project => Build Dependencies => Project Dependencies then select HOLLab_iMX6Q_2GB from the list.
 8. Right click the GenerateBSP project => Build Dependencies => Project Dependencies then select HOLLab_iMX6Q_2GB from the list.
 
@@ -21,14 +30,31 @@ The overall process is to bring up each of the firmware components in sequence, 
 The overall process is to bring up each of the firmware components in sequence, then create packages, and finally create an FFU configuration. By the end, there will be a new board configuration in the repository that builds an FFU for your board. It is important to create new configurations for your board instead of modifying existing ones, so that you can easily integrate code changes from our repositories. 
 
 ## Set-up U-Boot
-1. Open the Ubuntu shell and change to the u-boot folder `/mnt/c/HOLFirmware/u-boot/` 
+1. Open the Ubuntu shell and change to the u-boot folder:
+
+   ```
+   cd /mnt/c/HOLFirmware/u-boot/
+   ```
+
 2. Copy `configs/mx6cuboxi_nt_defconfig` to `configs/hollabboard_nt_defconfig`
-3. Edit `hollabboard_nt_defconfig` to change `CONFIG_TARGET_MX6CUBOXI=y` to `CONFIG_TARGET_HOLLABBOARD=y`.
-4. Save the file
+
+   ```
+   cp configs/mx6cuboxi_nt_defconfig configs/hollabboard_nt_defconfig
+   ```
+
+3. Edit `hollabboard_nt_defconfig` to change `CONFIG_TARGET_MX6CUBOXI=y` to `CONFIG_TARGET_HOLLABBOARD=y`. The following command uses Nano as the editor but you can use whatever Ubuntu editor you prefer:
+
+   ```
+   nano configs/hollabboard_nt_defconfig
+   ```
+
+   ![Editing the defconfig file](EditDefconfig.png)
+
+4. Save the file (Nano uses CTRL+X to save).
 
 ## Add a new board to U-Boot
 
-1. Edit `arch/arm/mach-imx/mx6/Kconfig` and add a config option for your board.
+1. using `nano` again, edit `arch/arm/mach-imx/mx6/Kconfig` and add a config option for your board.
 
        config TARGET_HOLLABBOARD
                bool "HOL Lab iMX6Q board"
@@ -36,9 +62,13 @@ The overall process is to bring up each of the firmware components in sequence, 
                select MX6QDL
                select SUPPORT_SPL
 
+   ![Editing KConfig for the target](MX6KConfig-1.png)
+
 2. Add a source entry for your config and then save the file
 
        source "board/hol/hollabboard/Kconfig"
+
+   ![Editing KConfig for the target](MX6KConfig-2.png)
 
 3. Create and initialize a board directory
 
@@ -48,7 +78,12 @@ The overall process is to bring up each of the firmware components in sequence, 
 
 4. Edit `board/hol/hollabboard/Makefile` and replace `mx6cuboxi.o` with `hollabboard.o`. Save the file.
 
-5. Edit `board/hol/hollabboard/Kconfig` and set appropriate values for your board. Note that the build system expects `SYS_CONFIG_NAME` to correspond to the name of a header file in `include/configs`. Also save this file.
+   ```
+   nano board/hol/hollabboard/Makefile
+   ```
+   ![Editing the Makefile](Makefile.png)
+
+5. Using Nano, edit `board/hol/hollabboard/Kconfig` and replace the content with the text below. Also save this file.
 
        if TARGET_HOLLABBOARD
 
@@ -71,31 +106,40 @@ The overall process is to bring up each of the firmware components in sequence, 
 
 If you were building your own board you would be performing your board initialization in the `hollabboard.c` file. As we're using the HummingBoard Edge we just copied the initialization source directly. However, we are adding a new sensor and to make this work with the current implementation we're going to need to do some additional work.
 
-1. Open `C:\HOLFirmware\u-boot\board\hol\hollabboard\hollabboard.c` in Visual Studio.
+1. Open `C:\HOLFirmware\u-boot\board\hol\hollabboard\hollabboard.c` in Visual Studio by selecting the File menu and then Open and finally File.
 
-2. Below the DECLARE_GLOBAL_DATA_PTR line, place the following code:
+   ![Open the file in Visual Studio](VisualStudioFileOpen.png)
+
+2. Below the DECLARE_GLOBAL_DATA_PTR line: 
    >Note: These 2 steps define the pad as a GPIO pad so that when the driver asks for a GPIO Interrupt on this pad Windows correctly creates it. 
-    
-``` c++
-#define GPIO_PAD_CTRL                                 \
-     (PAD_CTL_HYS | PAD_CTL_SPEED_MED | PAD_CTL_DSE_40ohm)
+   
+   ![Paste the code in here](Declare_Global_Data.png)
 
-// Sets the EIM_DA1 pad on the SoC to behave as GPIO bank 3 pin 1 with properties we specified in GPIO_PAD_CTRL above
-static iomux_v3_cfg_t const accelerometer[] = {
-     IOMUX_PADS(PAD_EIM_DA1__GPIO3_IO01 | MUX_PAD_CTRL(GPIO_PAD_CTRL)),
-};
+   Place the following code:
+   ``` c++
+   #define GPIO_PAD_CTRL                                 \
+        (PAD_CTL_HYS | PAD_CTL_SPEED_MED | PAD_CTL_DSE_40ohm)
+   
+   // Sets the EIM_DA1 pad on the SoC to behave as GPIO bank 3 pin 1 with    properties we specified in GPIO_PAD_CTRL above
+   static iomux_v3_cfg_t const accelerometer[] = {
+        IOMUX_PADS(PAD_EIM_DA1__GPIO3_IO01 | MUX_PAD_CTRL(GPIO_PAD_CTRL)),
+   };
+   
+   static void setup_iomux_accel(void)
+   {
+        SETUP_IOMUX_PADS(accelerometer);
+   }
+   ```
 
-static void setup_iomux_accel(void)
-{
-     SETUP_IOMUX_PADS(accelerometer);
-}
-```
+3. Search for the function `board_init`:
 
-3. Search for the function `board_init` and insert this line:
-
-```c++
-setup_iomux_accel();
-```
+   ![Board_init](BoardInit.png)
+   
+   and insert this line:
+   
+   ```c++
+   setup_iomux_accel();
+   ```
 
 4. Close the files and save them.
 
