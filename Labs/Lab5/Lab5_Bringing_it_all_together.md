@@ -57,13 +57,15 @@ If you have one or more custom applications that you want to include in your Win
 
 3. Click on the **Packaging** tab and click on the **Choose Certificate...** button.
 
-   ![Application manifest dialog in Visual Studio](package-manifest.png)
+   ![Application manifest dialog in Visual Studio](VisualStudio-1.png)
 
 4. The dialog displayed will show what certificate is being used for code-signing. Click on the **Configure Certificate...** dropdown and select **Pick from certificate store...**:
 
-   ![Certification selection dialog](certificate-screen.png)
+   ![Certification selection dialog](VisualStudio-2.png)
 
 5. Choose your retail code-signing certificate when prompted and click **OK**.
+
+   ![Accept the signing certificate](VisualStudio-3.png)
 
 6. Save your project in **Visual Studio** and then build your Appx package. 
 
@@ -95,34 +97,38 @@ Follow the steps below to add any custom applications or provisioning packages y
 ### Build the retail image files
 Once we have all the custom application packages signed properly, we can now build the Windows IoT Core retail image. Please verify that you have the retail code-signing certificate installed on your PC prior to following these steps:
 
-1. Set the IoT signature to include details about your certificate and cross-certificate. This is done by modifying the `IoTWorkspace.xml` file, located in your workspace (e.g. `C:\MyWorkspace`):
+1. Set the IoT signature to include details about your certificate and cross-certificate. This is done by modifying the `IoTWorkspace.xml` file, located in your workspace (e.g. `C:\MyWorkspace`). Open the file in Visual Studio and replace the existing `<RetailSignToolParam />` with:
 
    ```xml
    <!--Specify the retail signing certificate details, Format given below -->
     <RetailSignToolParam>/s my /sha1 "c100d6ed8592c63c712d1caef397407e8444ea3e" /fd SHA256 /ac "C:\Users\HOL\source\repos\IoTHOL\Labs\Lab5\DigiCert High Assurance EV Root CA.crt"</RetailSignToolParam>
    ```
 
-2. Reopen the workspace:
+   ![IoTPShell setup for retail signing](VisualStudio-4.png)
+
+2. Save the XML file.
+
+3. Reopen the workspace:
 
     ```xml
     Open-IoTWorkspace .\IoTWorkspace.xml
     ```
 
-3. Run **IoT Core PowerShell Environment** as an administrator.
+4. Run **IoT Core PowerShell Environment** as an administrator.
 
-4. Set the environment for retail signing. this is done with `Set-IoTRetailSign`:
+5. Set the environment for retail signing. this is done with `Set-IoTRetailSign`:
 
    ```powershell
    Set-IoTRetailSign On
    ```
 
-5. Build the packages
+6. Build the packages
 
    ```powershell
    New-IoTCabPackage All
    ```
 
-6. Build yoru retail image by running the following command:
+7. Build yoru retail image by running the following command:
 
    ```powershell
    New-IoTFFUImage ProductD Retail -Verbose
@@ -136,7 +142,7 @@ The MX6 board uses the **Windows IoT Core Dashboard** to deploy the FFU (you can
 
 2. Plug your micro SD card into your PC, and select it in the tool.
 
-3. From the **Setup a new device** section, select **MX6** under **Device Type**.
+3. From the **Setup a new device** section, select **NXP** under **Device Type**.
 
 4. Select **Custom** under OS Build.
 
@@ -148,7 +154,7 @@ The MX6 board uses the **Windows IoT Core Dashboard** to deploy the FFU (you can
 
 8. Check the **I accept the software license terms** checkbox (lower right) and click **Install**.
 
-   ![Flashing the FFU](flashffu.jpg)
+   ![Flashing the FFU](Dashboard.png)
 
    Windows IoT Core Dashboard will now open a command window and use DISM (Deployment Image Servicing and Management Tool) to flash the FFU file to your microSD card.
 
