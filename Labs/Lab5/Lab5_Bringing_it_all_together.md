@@ -190,11 +190,7 @@ The MX6 board uses the **Windows IoT Core Dashboard** to deploy the FFU (you can
 
    Windows IoT Core Dashboard will now open a command window and use DISM (Deployment Image Servicing and Management Tool) to flash the FFU file to your microSD card.
 
-   Once the flashing process is complete, eject the microSD card from your PC and insert it into the MX6. Reconnect the power to boot Windows IoT Core. You should see the IoT Core Default app, which shows basic information about the image and displays the sensor data.
-
-9. Once the flashing is complete, **deploy the firmware** to the SD Card as you have done previously.
-
-10. Place the card into the board and boot the machine to see it running the retail image.
+9. Once the flashing is complete, eject the SD Card and place it into the board and reset the machine to see it running the retail image.
 
 ## Previous Lab
 
