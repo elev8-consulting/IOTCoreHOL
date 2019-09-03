@@ -30,7 +30,7 @@ In the Retail signed case certain drivers need to be signed by Microsoft due to 
    cp /mnt/c/Users/HOL/source/repos/IoTHOL/Labs/Lab5/imx6_drivers/mx6pep.sys /mnt/c/HOLFirmware/imx-iotcore/BSP/HOLLab_iMX6Q_2GB/Packages/Power/
    ```
 
-At this point you have a BSP that could be published. Howeveryou should note that some of the drivers in this BSP are still test signed. If you were really planning to release this you would go into the Visual Studio project and change the driver signing settings. You'd also update the signing for the firmware images. This way the public BSP will be completely retail signed.
+At this point you have a BSP that could be published. However you should note that some of the drivers in this BSP are still test signed. If you were really planning to release this you would go into the Visual Studio project and change the driver signing settings. You'd also update the signing for the firmware images. This way the public BSP will be completely retail signed.
 
 ## Update the BSP
 
