@@ -6,7 +6,7 @@ We've created a new driver, built a new BSP using it and added an application to
 
 As this is the **final** BSP that you're building you would now integrate the firmware rather than deploying it manually to the SD Card for development (as we have been doing). 
 
-1. Copy the firmware files into the BSP folders:
+1. Copy the firmware files into the Board folders:
 
    ```
    cp /mnt/c/HOLFirmware/imx-iotcore/build/firmware/HOLLab_iMX6Q_2GB/firmware_fit.merged /mnt/c/HOLFirmware/imx-iotcore/build/board/HOLLab_iMX6Q_2GB/Package/BootLoader/
@@ -14,7 +14,7 @@ As this is the **final** BSP that you're building you would now integrate the fi
    cp /mnt/c/HOLFirmware/imx-iotcore/build/firmware/HOLLab_iMX6Q_2GB/uefi.fit /mnt/c/HOLFirmware/imx-iotcore/build/board/HOLLab_iMX6Q_2GB/Package/BootFirmware/
    ```
 
-2. Switch to Visual Studio with the iMXPlatform.sln open and rebuild the BSP by right clicking on GenerateBSP and selecting Rebuild.
+2. Switch to Visual Studio with the iMXPlatform.sln open and rebuild the BSP by right clicking on GenerateBSP and selecting Rebuild. This will bring the new firmware into the BSP.
 
 ## Replace a few driver files
 
