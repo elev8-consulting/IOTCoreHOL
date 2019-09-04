@@ -1,6 +1,6 @@
 # Bringing it all together
 
-We've created a new driver, built a new BSP using it and added an application to our image. We're now ready to deploy our test image to the board and ensure that everythiong works.
+We've created a new driver, built a new BSP using it and added an application to our image. We're now ready to deploy our test image to the board and ensure that everything works.
 
 ## Integrate your firmware
 
