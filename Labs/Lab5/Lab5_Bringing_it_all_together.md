@@ -1,20 +1,52 @@
 # Bringing it all together
 
-We've created a new driver, built a new BSP using it and added an application to our image. We're now ready to deploy our test image to the board and ensure that everythiong works.
+We've created a new driver, built a new BSP using it and added an application to our image. We're now ready to deploy our test image to the board and ensure that everything works.
+
+## Integrate your firmware
+
+As this is the **final** BSP that you're building you would now integrate the firmware rather than deploying it manually to the SD Card for development (as we have been doing). 
+
+1. Copy the firmware files into the Board folders:
+
+   ```
+   cp /mnt/c/HOLFirmware/imx-iotcore/build/firmware/HOLLab_iMX6Q_2GB/firmware_fit.merged /mnt/c/HOLFirmware/imx-iotcore/build/board/HOLLab_iMX6Q_2GB/Package/BootLoader/
+   
+   cp /mnt/c/HOLFirmware/imx-iotcore/build/firmware/HOLLab_iMX6Q_2GB/uefi.fit /mnt/c/HOLFirmware/imx-iotcore/build/board/HOLLab_iMX6Q_2GB/Package/BootFirmware/
+   ```
+
+2. Switch to Visual Studio with the iMXPlatform.sln open and rebuild the BSP by right clicking on GenerateBSP and selecting Rebuild. This will bring the new firmware into the BSP.
 
 ## Replace a few driver files
 
 In the Retail signed case certain drivers need to be signed by Microsoft due to the tight nature between the HAL and these drivers during the Windows boot process. When working on your own BSP, if you have HAL extensions (or other drivers) that require this then please contact Microsoft.
 
-1. Copy these drivers to these locations
+1. From the Ubuntu shell copy these drivers to these locations:
 
-``` powershell
-copy C:\Users\HOL\source\repos\IoTHOL\Labs\Lab5\imx6_drivers\HalExtiMX6Timers.dll C:\MyWorkspace\Source-arm\BSP\HOLLab_iMX6Q_2GB\Packages\HalExtTimers
+   ```
+   cp /mnt/c/Users/HOL/source/repos/IoTHOL/Labs/Lab5/imx6_drivers/HalExtiMX6Timers.dll /mnt/c/HOLFirmware/imx-iotcore/BSP/HOLLab_iMX6Q_2GB/Packages/HalExtTimers/
 
-copy C:\Users\HOL\source\repos\IoTHOL\Labs\Lab5\imx6_drivers\HalExtiMXDma.dll C:\MyWorkspace\Source-arm\BSP\HOLLab_iMX6Q_2GB\Packages\HalExtDma\HalExtiMXDma.dll
+   cp /mnt/c/Users/HOL/source/repos/IoTHOL/Labs/Lab5/imx6_drivers/HalExtiMXDma.dll /mnt/c/HOLFirmware/imx-iotcore/BSP/HOLLab_iMX6Q_2GB/Packages/HalExtDma/
 
-copy C:\Users\HOL\source\repos\IoTHOL\Labs\Lab5\imx6_drivers\mx6pep.sys C:\MyWorkspace\Source-arm\BSP\HOLLab_iMX6Q_2GB\Packages\Power\mx6pep.sys
-```
+   cp /mnt/c/Users/HOL/source/repos/IoTHOL/Labs/Lab5/imx6_drivers/mx6pep.sys /mnt/c/HOLFirmware/imx-iotcore/BSP/HOLLab_iMX6Q_2GB/Packages/Power/
+   ```
+
+At this point you have a BSP that could be published. However you should note that some of the drivers in this BSP are still test signed. If you were really planning to release this you would go into the Visual Studio project and change the driver signing settings. You'd also update the signing for the firmware images. This way the public BSP will be completely retail signed.
+
+## Update the BSP
+
+1. Open `File Explorer` 
+
+2. Change to the `C:\MyWorkspace\Source-arm\BSP` directory.
+
+3. Delete the `HOLLab_iMX6Q_2GB` folder.
+
+   ![BSP Folder deletion](BSP.png)
+
+4. Switch to the IoTPShell and import the BSPagain:
+
+   ```powershell
+   Import-IoTBSP HOLLab_iMX6Q_2GB C:\HOLFirmware\imx-iotcore\BSP\
+   ```
 
 ## Create a new product
 
@@ -158,11 +190,7 @@ The MX6 board uses the **Windows IoT Core Dashboard** to deploy the FFU (you can
 
    Windows IoT Core Dashboard will now open a command window and use DISM (Deployment Image Servicing and Management Tool) to flash the FFU file to your microSD card.
 
-   Once the flashing process is complete, eject the microSD card from your PC and insert it into the MX6. Reconnect the power to boot Windows IoT Core. You should see the IoT Core Default app, which shows basic information about the image and displays the sensor data.
-
-9. Once the flashing is complete, **deploy the firmware** to the SD Card as you have done previously.
-
-10. Place the card into the board and boot the machine to see it running the retail image.
+9. Once the flashing is complete, eject the SD Card and place it into the board and reset the machine to see it running the retail image.
 
 ## Previous Lab
 
