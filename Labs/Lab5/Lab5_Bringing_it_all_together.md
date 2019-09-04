@@ -1,6 +1,6 @@
 # Bringing it all together
 
-We've created a new driver, built a new BSP using it and added an application to our image. We're now ready to deploy our test image to the board and ensure that everything works.
+We've created a new driver, built a new BSP using it and added an application to our image. We're now ready to deploy our test image to the board and ensure that everythiong works.
 
 ## Integrate your firmware
 
@@ -30,7 +30,9 @@ In the Retail signed case certain drivers need to be signed by Microsoft due to 
    cp /mnt/c/Users/HOL/source/repos/IoTHOL/Labs/Lab5/imx6_drivers/mx6pep.sys /mnt/c/HOLFirmware/imx-iotcore/BSP/HOLLab_iMX6Q_2GB/Packages/Power/
    ```
 
-At this point you have a BSP that could be published. However you should note that some of the drivers in this BSP are still test signed. If you were really planning to release this you would go into the Visual Studio project and change the driver signing settings. You'd also update the signing for the firmware images. This way the public BSP will be completely retail signed.
+To fully complete the BSP you would go back into the Visual Studio project and ensure that all of your drivers are signed with your code signing certificate. This ensures that when the public downloads your BSP that they have the files you have signed and they have not been tampered with.
+
+For the purposes of this lab we have already set the signing of the ADXL345 driver to be the appropriate certificate. Other drivers are only signed with the Microsoft WDK Test Certificate to speed up the lab. You should **never** make publicly available a binary BSP with test signed drivers.
 
 ## Update the BSP
 
