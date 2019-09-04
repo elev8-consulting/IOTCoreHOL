@@ -53,7 +53,11 @@ The first step is to create a Universal Windows Platform (UWP) application that 
 
 1. Launch Visual Studio and then select File->Open Project/Solution. Choose `C:\Users\HOL\source\repos\IoTHOL\Apps\AcceleromterDemo\AcceleromterDemo.sln`. This is a small demo app that shows 2 dimensional axial data from the ADXL345.
 
+   ![Opening a solution in Visual Studio](VisualStudio-1.png)
+
 2. In Visual Studio create an Appx package. This is done by clicking **Project > Store > Create App Packages > I want to Create Packages for Sideloading > Next**
+
+   ![Creating Store packages](VisualStudio-2.png)
 
 3. Select **Output location** as `C:\HOLApp` (or any other path that doesn't include spaces.)
 
@@ -146,6 +150,8 @@ New-IoTFFUImage ProductC Test -Verbose
 
 Now that the image has been rebuilt without errors we're ready to bring everything together and deploy the image to the device. Remember to deploy the `firmware_fit.merged` and `uefi.fit` files as well.
 
+   >Note: If the device stops showing red arrows when twisted or shaken it is possible that the sensor wiring has beomce deisconnected. Ensure that the wiring is firmly seated and reboot the device.
+
 ## Updating the app
 
 The accelerometer is oriented so that when the header is down the app should display the red down arrow. As you twist the sensor left and right you will see the other arrows start to show. One thing you might notice is that the app is very sensitive to gravity so that it only takes a little twist to turn arrows red. Let's fix this:
@@ -154,7 +160,11 @@ The accelerometer is oriented so that when the header is down the app should dis
 
 2. Open the `MainPage.xaml.cs` file in the solution explorer (if it isn't already expanded just click on the small triangle to the left of `MainPage.xaml`) double clicking  the displayed file.
 
+   ![Expansion triangle](VisualStudio-3.png)
+
 3. Scroll down to the DisplayCurrentReadingAsync method and change the 0.1 & -0.1 values in that method to 0.5 & -0.5 respectively.
+
+   ![Where to modify the code](VisualStudio-4.png)
 
 4. Save your project in **Visual Studio** and then build your Appx package. 
 
