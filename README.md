@@ -46,4 +46,4 @@ Please select `HOL Lab` as this is the VHD that contains all the required binari
 
 ## Lab Setup Doc
 
-- [Lab setup](Labs\LabSestup\NXPLabSetup.docx)
+- [Lab setup](Labs/LabSestup/NXPLabSetup.docx)
