@@ -43,3 +43,7 @@ Please select `HOL Lab` as this is the VHD that contains all the required binari
 ### Windows Samples
 - [Windows IoT Core Samples](https://github.com/microsoft/Windows-iotcore-samples/tree/develop/Samples)
 - [Windows Driver Samples](https://github.com/Microsoft/Windows-driver-samples)
+
+## Lab Setup Doc
+
+- [Lab setup](Labs\LabSestup\NXPLabSetup.docx)
