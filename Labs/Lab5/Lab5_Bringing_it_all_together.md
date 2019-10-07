@@ -18,7 +18,7 @@ As this is the **final** BSP that you're building you would now integrate the fi
 
 ## Replace a few driver files
 
-In the Retail signed case certain drivers need to be signed by Microsoft due to the tight nature between the HAL and these drivers during the Windows boot process. When working on your own BSP, if you have HAL extensions (or other drivers) that require this then please contact Microsoft.
+In the Retail signed case certain drivers need to be signed by Microsoft due to the tight nature between the HAL and these drivers during the Windows boot process. When working on your own BSP, you will need to co-ordinate with Microsoft for these signed drivers.
 
 1. From the Ubuntu shell copy these drivers to these locations:
 
