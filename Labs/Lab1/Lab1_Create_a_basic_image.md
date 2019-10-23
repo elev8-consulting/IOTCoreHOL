@@ -98,7 +98,7 @@ To make running these commands easier, we'll install and use the IoT Core shell,
    1. Eject any removable storage from the lab machine
    2. Build the FFU image file by entering the following command in the IoT Core PowerShell Environment using New-IoTFFUImage:
       
-      ```powershell
+      ``` PowerShell
       New-IoTFFUImage ProductA Test
       ```
 
@@ -106,7 +106,7 @@ To make running these commands easier, we'll install and use the IoT Core shell,
       
       To direct all output to console instead of log file, add `-Verbose` flag, such as the one below.
 
-      ```powershell
+      ```PowerShell
       New-IoTFFUImage -Verbose ProductA Test
       ```
 

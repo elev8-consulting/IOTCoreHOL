@@ -1,0 +1,13 @@
+site_name: Elev8 Consulting i.MX6 Firmware Lab
+
+docs_dir: Labs
+
+plugins:
+    - search
+    - pdf-export
+
+markdown_extensions:
+    - pymdownx.superfences
+
+theme:
+    name: material

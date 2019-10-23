@@ -116,7 +116,8 @@ If you were building your own board you would be performing your board initializ
    ![Paste the code in here](Declare_Global_Data.png)
 
    Place the following code:
-   ``` c++
+
+   ```c++
    #define GPIO_PAD_CTRL                                 \
         (PAD_CTL_HYS | PAD_CTL_SPEED_MED | PAD_CTL_DSE_40ohm)
    
@@ -171,7 +172,7 @@ OP-TEE is mostly board-independent. Right now, the only configuration that needs
 
 ## Setting up your build enviroment to build firmware_fit.merged
 
-In order to build and load both OPTEE and U-Boot you will need to create a Flattened Image Tree (FIT) binary to flash onto your device. The build enviroment for FIT images is integrated into the build infrastructure. This will sign SPL for [high assurance boot](build-firmware.md#signing-and-high-assurance-boot-hab), and combine SPL, U-Boot, and OP-TEE into a single `firmware_fit.merged` file that can be tested manually, or built into an FFU image as part of a BSP.
+In order to build and load both OPTEE and U-Boot you will need to create a Flattened Image Tree (FIT) binary to flash onto your device. The build enviroment for FIT images is integrated into the build infrastructure. This will sign SPL for high assurance boot, and combine SPL, U-Boot, and OP-TEE into a single `firmware_fit.merged` file that can be tested manually, or built into an FFU image as part of a BSP.
 
 1. Change to the folder `/mnt/c/HOLFirmware/imx-iotcore/`
 
