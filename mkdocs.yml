@@ -1,13 +1,13 @@
-site_name: Elev8 Consulting i.MX6 Firmware Lab
+site_name: Elev8 Consulting Distributor Training Labs
 
 docs_dir: Labs
 
 plugins:
     - search
-    - pdf-export
+    - pdf-export:
+         combined: true
+         combined_output_path: pdf/Elev8NXP-Labs.pdf
 
 markdown_extensions:
     - pymdownx.superfences
 
-theme:
-    name: material
